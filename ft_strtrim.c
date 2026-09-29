@@ -11,14 +11,13 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static int	in_set(char c, char const *set)
 {
 	int	i;
-	
+
 	i = 0;
-	while(set[i] != '\0')
+	while (set[i] != '\0')
 	{
 		if (c == set[i])
 			return (1);
@@ -33,9 +32,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	end;
 	size_t	i;
 	char	*result;
-	
+
 	if (!s1 || !set)
-		return NULL;
+		return (NULL);
 	start = 0;
 	while (s1[start] && in_set(s1[start], set))
 		start++;
@@ -44,11 +43,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 		end--;
 	result = malloc(sizeof(char) * (end - start + 1));
 	if (!result)
-	{
 		return (NULL);
-	}
 	i = 0;
-	
 	while (start < end)
 	{
 		result[i] = s1[start];

@@ -12,7 +12,9 @@
 
 #include "libft.h"
 
-char	*malloc_s1(size_t sublen)
+#include "libft.h"
+
+static char	*malloc_s1(size_t sublen)
 {
 	char	*s1;
 
@@ -20,17 +22,15 @@ char	*malloc_s1(size_t sublen)
 	return (s1);
 }
 
-char	*create_sub(char const *s, char *s1, size_t sublen, unsigned int start)
+static char	*create_sub(char const *s, char *s1,
+		size_t sublen, unsigned int start)
 {
-	unsigned int	j;
-	unsigned int	i;
+	size_t	j;
 
 	j = 0;
-	i = start;
 	while (j < sublen)
 	{
-		s1[j] = s[i];
-		i++;
+		s1[j] = s[start + j];
 		j++;
 	}
 	s1[j] = '\0';
@@ -45,19 +45,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	str_len = ft_strlen(s);
 	if (start >= str_len)
+		sublen = 0;
+	else
 	{
-		s1 = malloc(1);
-		if (!s1)
-			return (NULL);
-		s1[0] = '\0';
-		return (s1);
+		sublen = str_len - start;
+		if (sublen > len)
+			sublen = len;
 	}
-	sublen = str_len - start;
-	if (sublen > len)
-		sublen = len;
-	s1 = malloc_s1(sub_str_len);
+	s1 = malloc_s1(sublen);
 	if (!s1)
 		return (NULL);
-	s1 = create_sub(s, s1, sublen, start);
-	return (s1);
+	return (create_sub(s, s1, sublen, start));
 }

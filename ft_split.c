@@ -6,57 +6,46 @@
 /*   By: tchern-h <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 13:26:26 by tchern-h          #+#    #+#             */
-/*   Updated: 2026/09/28 16:13:26 by tchern-h         ###   ########.fr       */
+/*   Updated: 2026/09/29 10:17:21 by tchern-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
-
-static char	**free_all(char **lst, size_t i)
-{
-	while (i > 0)
-	{
-		i--;
-		free(lst[i]);
-	}
-	free(lst);
-	return (NULL);
-}
 
 static int	count_words(char const *s, char c)
 {
 	int	count;
-	int	in_word;
 	int	i;
 
 	count = 0;
-	in_word = 0;
 	i = 0;
 	while (s[i])
 	{
-		if ((s[i] != c) && !in_word)
-		{
-			in_word = 1;
+		while (s[i] && s[i] == c)
+			i++;
+		if (s[i])
 			count++;
-		}
-		else if ((s[i] == c))
-			in_word = 0;
-		i++;
+		while (s[i] && s[i] != c)
+			i++;
 	}
 	return (count);
 }
 
-char	**ft_split(char const *s, char c)
+static	char	**free_all(char **result, size_t i)
 {
-	char	**result;
+	while (i > 0)
+	{
+		i--;
+		free(result[i]);
+	}
+	free(result);
+	return (NULL);
+}
+
+static char	**get_result(char const *s, char c, char **result)
+{
 	size_t	i;
 	size_t	len;
-	
-	if(!s)
-		return (NULL);
-	result = (char **)malloc(sizeof(char *) * (count_words(s, c) + 1));
-	if (!result)
-		return (NULL);
+
 	i = 0;
 	while (*s)
 	{
@@ -75,5 +64,18 @@ char	**ft_split(char const *s, char c)
 		}
 	}
 	result[i] = NULL;
+	return (result);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**result;
+
+	if (!s)
+		return (NULL);
+	result = (char **)malloc(sizeof(char *) * (count_words(s, c) + 1));
+	if (!result)
+		return (NULL);
+	result = get_result(s, c, result);
 	return (result);
 }
