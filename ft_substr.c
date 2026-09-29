@@ -12,8 +12,6 @@
 
 #include "libft.h"
 
-#include "libft.h"
-
 static char	*malloc_s1(size_t sublen)
 {
 	char	*s1;
