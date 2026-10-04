@@ -12,46 +12,30 @@
 
 #include "libft.h"
 
-static char	*malloc_s1(size_t sublen)
+static size_t	get_sublen(size_t str_len, unsigned int start, size_t len)
 {
-	char	*s1;
+	size_t	available;
 
-	s1 = malloc((sublen + 1) * sizeof(char));
-	return (s1);
-}
-
-static char	*create_sub(char const *s, char *s1,
-		size_t sublen, unsigned int start)
-{
-	size_t	j;
-
-	j = 0;
-	while (j < sublen)
-	{
-		s1[j] = s[start + j];
-		j++;
-	}
-	s1[j] = '\0';
-	return (s1);
+	if (start >= str_len)
+		return (0);
+	available = str_len - start;
+	if (available < len)
+		return (available);
+	return (len);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*s1;
-	size_t	str_len;
+	char	*sub;
 	size_t	sublen;
 
-	str_len = ft_strlen(s);
-	if (start >= str_len)
-		sublen = 0;
-	else
-	{
-		sublen = str_len - start;
-		if (sublen > len)
-			sublen = len;
-	}
-	s1 = malloc_s1(sublen);
-	if (!s1)
+	if (!s)
 		return (NULL);
-	return (create_sub(s, s1, sublen, start));
+	sublen = get_sublen(ft_strlen(s), start, len);
+	sub = malloc(sublen + 1);
+	if (!sub)
+		return (NULL);
+	ft_memcpy(sub, s + start, sublen);
+	sub[sublen] = '\0';
+	return (sub);
 }
