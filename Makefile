@@ -69,9 +69,6 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
-# Bonus rule
-bonus: $(NAME)
-
 # Implicit pattern rule for compilation
 %.o: %.c libft.h
 	$(CC) $(CFLAGS) -c $< -o $@
